@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import initialData from "../assets/initialData.json"; // ✅ import JSON
+import { useState, useEffect } from "react";
+import initialData from "../assets/initialData.json";
 import { useNavigate } from "react-router-dom";
+// Mock initial data for demonstration
 
-// Mock types and data for demonstration
 type Product = {
   id: string;
   name: string;
@@ -10,8 +10,10 @@ type Product = {
   salePrice: string;
 };
 
+const STORAGE_KEY = "products";
+
 export default function Crud() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [products, setProducts] = useState<Product[]>([]);
   const [form, setForm] = useState<Product>({
     id: "",
@@ -22,15 +24,49 @@ export default function Crud() {
   const [editing, setEditing] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Load from localStorage on mount
+  useEffect(() => {
+    loadFromStorage();
+  }, []);
+
+  const loadFromStorage = () => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed: Product[] = JSON.parse(stored);
+        setProducts(parsed);
+      } else {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
+        setProducts([]);
+      }
+    } catch (error) {
+      console.error("Error loading from localStorage:", error);
+      setProducts([]);
+    }
+  };
+
+  const saveToStorage = (data: Product[]) => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      setProducts(data);
+    } catch (error) {
+      console.error("Error saving to localStorage:", error);
+    }
+  };
+
   const generateId = () => Math.random().toString(36).substr(2, 9);
 
   const handleSave = () => {
+    let updatedProducts: Product[];
+
     if (editing) {
-      setProducts(products.map((p) => (p.id === form.id ? form : p)));
+      updatedProducts = products.map((p) => (p.id === form.id ? form : p));
       setEditing(false);
     } else {
-      setProducts([...products, { ...form, id: generateId() }]);
+      updatedProducts = [...products, { ...form, id: generateId() }];
     }
+
+    saveToStorage(updatedProducts);
     setForm({ id: "", name: "", price: "", salePrice: "" });
   };
 
@@ -41,7 +77,8 @@ export default function Crud() {
   };
 
   const handleDelete = (id: string) => {
-    setProducts(products.filter((p) => p.id !== id));
+    const updatedProducts = products.filter((p) => p.id !== id);
+    saveToStorage(updatedProducts);
   };
 
   const handleLoadInitial = () => {
@@ -49,37 +86,18 @@ export default function Crud() {
       ...item,
       id: generateId(),
     }));
-    setProducts(dataWithIds as Product[]);
+    saveToStorage(dataWithIds as Product[]);
   };
 
   const handleReturn = () => {
-    navigate("/inquiry-app");
-    // This would navigate back to main page
-    // You can replace this with your navigation logic
+    // Navigation logic would go here
+    navigate('/inquiry-app')
   };
 
   // Filter products based on search term
   const filteredProducts = products.filter((p) =>
     p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  useEffect(() => {
-    const stored = localStorage.getItem("products");
-    if (stored) {
-      const parsed: Product[] = JSON.parse(stored);
-      if (parsed.length === 0) {
-        // localStorage has empty array → set default state
-      } else {
-        // restore saved products
-        setProducts(parsed);
-      }
-    } else {
-      // no products key at all → initialize it
-      const initial: Product[] = [];
-      localStorage.setItem("products", JSON.stringify(initial));
-      setProducts(initial);
-    }
-  }, []);
 
   return (
     <div className="bg-gray-100 min-h-screen pb-6" dir="rtl">

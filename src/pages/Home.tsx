@@ -18,7 +18,7 @@ export default function MobileHomePage() {
         <div className="space-y-6">
           {/* Query Button */}
           <button
-            onClick={() => navigate("/inquiry")}
+            onClick={() => navigate("inquiry")}
             className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-6 px-8 rounded-full shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95"
           >
             <span className="text-2xl">استعلامات</span>
@@ -26,7 +26,7 @@ export default function MobileHomePage() {
 
           {/* Add Button */}
           <button
-            onClick={() => navigate("/crud")}
+            onClick={() => navigate("crud")}
             className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-6 px-8 rounded-full shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95"
           >
             <span className="text-2xl">إضافة</span>
