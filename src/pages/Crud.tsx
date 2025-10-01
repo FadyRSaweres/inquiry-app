@@ -71,6 +71,10 @@ export default function Crud() {
   };
 
   const handleEdit = (p: Product) => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
     setForm(p);
     setEditing(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -91,7 +95,7 @@ export default function Crud() {
 
   const handleReturn = () => {
     // Navigation logic would go here
-    navigate('/inquiry-app')
+    navigate("/inquiry-app/home");
   };
 
   // Filter products based on search term
@@ -221,7 +225,7 @@ export default function Crud() {
         )}
 
         {/* Products List - Virtualized */}
-        <div className="h-[calc(100vh-450px)] overflow-y-auto">
+        <div className="h-[calc(100vh-200px)] overflow-y-auto">
           <div className="space-y-3 pb-4">
             {filteredProducts.length === 0 && products.length > 0 && (
               <div className="text-center py-8 text-gray-500">

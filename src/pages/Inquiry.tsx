@@ -21,7 +21,7 @@ export default function Inquiry() {
   );
 
   const handleReturn = () => {
-    navigate("/inquiry-app");
+    navigate("/inquiry-app/home");
     // This would navigate back to main page
     // You can replace this with your navigation logic
   };
