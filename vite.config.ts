@@ -29,4 +29,5 @@ export default defineConfig({
       },
     }),
   ],
+  base: "/inquiry-app/", // 👈 put it here, not inside anything else
 });
