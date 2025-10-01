@@ -53,7 +53,7 @@ export default function Crud() {
   };
 
   const handleReturn = () => {
-    navigate("/");
+    navigate("/inquiry-app");
     // This would navigate back to main page
     // You can replace this with your navigation logic
   };

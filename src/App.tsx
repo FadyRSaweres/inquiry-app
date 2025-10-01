@@ -7,7 +7,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/inquiry-app" element={<Home />} />
         <Route path="/inquiry" element={<Inquiry />} />
         <Route path="/crud" element={<Crud />} />
       </Routes>
