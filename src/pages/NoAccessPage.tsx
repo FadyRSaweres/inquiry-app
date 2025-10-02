@@ -1,11 +1,19 @@
-const NoAccessPage = () => {
+import { useNavigate } from "react-router-dom";
+import checkCookie from "../../utils/checkCookie";
+
+export default function NoAccessPage() {
   const handleGoBack = () => {
     window.history.back();
   };
 
+  const navigate = useNavigate();
+
   const handleGoHome = () => {
-    // navigate('/'); // if using react-router
-    window.location.href = "/";
+    if (checkCookie()) {
+      navigate("/inquiry-app/home");
+    } else {
+      navigate("/inquiry-app");
+    }
   };
 
   return (
@@ -99,6 +107,4 @@ const NoAccessPage = () => {
       </div>
     </div>
   );
-};
-
-export default NoAccessPage;
+}
